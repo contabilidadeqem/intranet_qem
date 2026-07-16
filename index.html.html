@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intranet QEM Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #14213D;
+    --navy-800: #1E2E52;
+    --slate: #3A4A63;
+    --slate-light: #64748B;
+    --bg: #F3F5F8;
+    --card: #FFFFFF;
+    --accent: #2B5DBF;
+    --accent-light: #E7EEFA;
+    --border: #DDE3EC;
+    --danger: #B5432E;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter', sans-serif;
+    background:var(--bg);
+    color:var(--navy);
+    min-height:100vh;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif;}
+
+  /* ---------- LOGIN ---------- */
+  #login-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .login-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:44px 40px;
+    width:100%;
+    max-width:380px;
+  }
+  .login-box .mark{
+    width:44px;height:44px;
+    background:var(--navy);
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:18px;
+    margin-bottom:20px;
+  }
+  .login-box h1{font-size:22px;font-weight:600;margin:0 0 4px;}
+  .login-box p.sub{color:var(--slate-light);font-size:14px;margin:0 0 28px;}
+  label{display:block;font-size:13px;font-weight:500;color:var(--slate);margin:0 0 6px;}
+  input[type=text],input[type=password]{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    font-size:14px;
+    font-family:'Inter';
+    margin-bottom:16px;
+    background:#FAFBFC;
+    color:var(--navy);
+  }
+  input:focus{outline:none;border-color:var(--accent);background:#fff;}
+  #login-btn{
+    width:100%;
+    padding:12px;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+    font-family:'Inter';
+    cursor:pointer;
+    margin-top:6px;
+  }
+  #login-btn:hover{background:var(--navy-800);}
+  #login-error{
+    display:none;
+    background:#FBEAE6;
+    color:var(--danger);
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:8px;
+    margin-bottom:16px;
+  }
+
+  /* ---------- DASHBOARD ---------- */
+  #dashboard{display:none;}
+  header{
+    background:var(--navy);
+    color:#fff;
+    padding:20px 40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand .mark{
+    width:36px;height:36px;background:rgba(255,255,255,0.12);
+    border-radius:8px;display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk';font-weight:700;font-size:15px;
+  }
+  .brand-text h1{font-size:16px;margin:0;font-weight:600;}
+  .brand-text span{font-size:12px;color:#AEB9CE;}
+  .user-area{display:flex;align-items:center;gap:16px;font-size:13px;color:#D6DEEC;}
+  #logout-btn{
+    background:transparent;border:1px solid rgba(255,255,255,0.3);
+    color:#fff;padding:7px 14px;border-radius:7px;font-size:13px;cursor:pointer;
+    font-family:'Inter';
+  }
+  #logout-btn:hover{background:rgba(255,255,255,0.1);}
+
+  main{max-width:1080px;margin:0 auto;padding:40px;}
+  .banner{
+    width:100%;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:36px;
+    border:1px solid var(--border);
+    background:var(--card);
+  }
+  .banner img{width:100%;display:block;}
+  .section-title{
+    font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;
+    color:var(--slate-light);margin:0 0 16px;
+  }
+  .section-title:not(:first-child){margin-top:40px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:16px;
+  }
+  .tool-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px;
+    text-decoration:none;
+    color:inherit;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    transition:border-color .15s, transform .15s;
+  }
+  .tool-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .tool-icon{
+    width:38px;height:38px;
+    background:var(--accent-light);
+    color:var(--accent);
+    border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .tool-icon svg{width:20px;height:20px;}
+  .tool-card h3{font-size:15px;font-weight:600;margin:0;color:var(--navy);}
+  .tool-card p{font-size:13px;color:var(--slate-light);margin:0;line-height:1.5;}
+  .tool-card .url{font-size:12px;color:var(--accent);margin-top:auto;font-family:'Inter';word-break:break-all;}
+
+  footer{
+    text-align:center;padding:32px;font-size:12px;color:var(--slate-light);
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="mark">Q</div>
+    <h1>Intranet QEM</h1>
+    <p class="sub">Acesso restrito à equipe QEM Consultoria.</p>
+    <div id="login-error">E-mail ou senha inválidos.</div>
+    <form id="login-form">
+      <label for="username">E-mail</label>
+      <input type="text" id="username" autocomplete="username" placeholder="seuemail@qemcontabilidade.com">
+      <label for="password">Senha</label>
+      <input type="password" id="password" autocomplete="current-password" placeholder="••••••••">
+      <button type="submit" id="login-btn">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== DASHBOARD ===================== -->
+<div id="dashboard">
+  <header>
+    <div class="brand">
+      <div class="mark">Q</div>
+      <div class="brand-text">
+        <h1>Intranet QEM</h1>
+        <span>Ferramentas internas do escritório</span>
+      </div>
+    </div>
+    <div class="user-area">
+      <span id="user-label"></span>
+      <button id="logout-btn">Sair</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="banner">
+      <img src="https://raw.githubusercontent.com/contabilidadeqem/intranet_qem/822f41131d0bd4448491c365241c04b4fb64e71b/banner.png" alt="QEM Consultoria">
+    </div>
+
+    <div class="section-title">Sites institucionais</div>
+    <div class="grid">
+      <a class="tool-card" href="https://qemconsultoria.com.br" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg></div>
+        <h3>QEM Consultoria (.com.br)</h3>
+        <p>Site institucional principal do escritório.</p>
+        <span class="url">qemconsultoria.com.br</span>
+      </a>
+      <a class="tool-card" href="https://qemconsultoria.com" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg></div>
+        <h3>QEM Consultoria (.com)</h3>
+        <p>Domínio institucional internacional.</p>
+        <span class="url">qemconsultoria.com</span>
+      </a>
+    </div>
+
+    <div class="section-title">Calculadoras tributárias</div>
+    <div class="grid">
+      <a class="tool-card" href="https://calculadora.qemconsultoria.com.br" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="14.01"/><line x1="8" y1="18" x2="16" y2="18"/></svg></div>
+        <h3>Saúde</h3>
+        <p>Calculadora tributária para médicos, dentistas e clínicas.</p>
+        <span class="url">calculadora.qemconsultoria.com.br</span>
+      </a>
+      <a class="tool-card" href="https://oficina.qemconsultoria.com.br" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.5 5.5L3 18v3h3l6.2-6.2a4 4 0 0 0 5.5-5.5l-2.8 2.8-2-2z"/></svg></div>
+        <h3>Oficina</h3>
+        <p>Calculadora tributária para oficinas mecânicas.</p>
+        <span class="url">oficina.qemconsultoria.com.br</span>
+      </a>
+      <a class="tool-card" href="https://restaurante.qemconsultoria.com.br" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 2v7c0 1.1.9 2 2 2s2-.9 2-2V2M5 2v20M9 2v6a2 2 0 0 0 4 0V2M15 11c0-4 2-9 6-9v20"/></svg></div>
+        <h3>Restaurante</h3>
+        <p>Calculadora tributária para restaurantes e food service.</p>
+        <span class="url">restaurante.qemconsultoria.com.br</span>
+      </a>
+      <a class="tool-card" href="https://farmacia.qemconsultoria.com.br" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.5 20.5 3.5 13.5a5 5 0 1 1 7-7l7 7a5 5 0 1 1-7 7Z"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5"/></svg></div>
+        <h3>Farmácia</h3>
+        <p>Calculadora tributária para farmácias e drogarias.</p>
+        <span class="url">farmacia.qemconsultoria.com.br</span>
+      </a>
+    </div>
+
+    <div class="section-title">CRM e captação de leads</div>
+    <div class="grid">
+      <a class="tool-card" href="https://app.qemconsultoria.com.br" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg></div>
+        <h3>CRM do escritório</h3>
+        <p>Gestão de clientes e disparador automático de mensagens.</p>
+        <span class="url">app.qemconsultoria.com.br</span>
+      </a>
+      <a class="tool-card" href="http://187.77.37.115:8081/nc/form/51684f08-5bc4-4c01-8d1b-954cd72b01f8" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <h3>Cadastro de leads</h3>
+        <p>Formulário rápido para novos leads entrarem no CRM.</p>
+        <span class="url">187.77.37.115:8081/nc/form/...</span>
+      </a>
+    </div>
+
+    <div class="section-title">Gestão e operação</div>
+    <div class="grid">
+      <a class="tool-card" href="https://contratos-app-seven.vercel.app/login?next=%2Fcontratos" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg></div>
+        <h3>Contratos</h3>
+        <p>Emissão e gestão de contratos do escritório.</p>
+        <span class="url">contratos-app-seven.vercel.app</span>
+      </a>
+      <a class="tool-card" href="https://gestahora.vercel.app/login" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <h3>Gestão de escala</h3>
+        <p>Escala e estrutura da equipe do escritório.</p>
+        <span class="url">gestahora.vercel.app</span>
+      </a>
+      <a class="tool-card" href="https://contabilidadeqem.github.io/consulta-cnpj" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg></div>
+        <h3>Consulta CNPJ</h3>
+        <p>Consulta rápida de dados cadastrais de CNPJ.</p>
+        <span class="url">contabilidadeqem.github.io/consulta-cnpj</span>
+      </a>
+    </div>
+
+    <div class="section-title">Sistemas internos</div>
+    <div class="grid">
+      <a class="tool-card" href="https://contador.nibo.com.br/Obligation/Calendar" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="14.01"/></svg></div>
+        <h3>Nibo Obrigações</h3>
+        <p>Calendário de obrigações fiscais e contábeis.</p>
+        <span class="url">contador.nibo.com.br</span>
+      </a>
+      <a class="tool-card" href="https://www.dominioweb.com.br/success" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><line x1="12" y1="12" x2="12" y2="22"/></svg></div>
+        <h3>Domínio</h3>
+        <p>Sistema de gestão contábil Domínio Web.</p>
+        <span class="url">dominioweb.com.br</span>
+      </a>
+    </div>
+
+    <div class="section-title">Treinamentos</div>
+    <div class="grid">
+      <a class="tool-card" href="https://itamarfreitas.cademi.com.br/auth/login?redirect=%2Farea%2Fvitrine" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div>
+        <h3>Mentoria contábil</h3>
+        <p>Área de membros do treinamento com Itamar Freitas.</p>
+        <span class="url">itamarfreitas.cademi.com.br</span>
+      </a>
+      <a class="tool-card" href="https://alunos.contabilidadefacilitada.com/" target="_blank" rel="noopener">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div>
+        <h3>Contabilidade facilitada</h3>
+        <p>Área de membros do treinamento Contabilidade Facilitada.</p>
+        <span class="url">alunos.contabilidadefacilitada.com</span>
+      </a>
+    </div>
+
+  </main>
+
+  <footer>Intranet interna QEM Consultoria — acesso restrito.</footer>
+</div>
+
+<script>
+  var USERS = {
+    "jardel.queiroz@qemcontabilidade.com": { pass: "qem2026jardel", name: "Jardel Queiroz" },
+    "alef.manoel@qemcontabilidade.com":    { pass: "qem2026alef",   name: "Alef Manoel" }
+  };
+
+  var form = document.getElementById('login-form');
+  var errorBox = document.getElementById('login-error');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var u = document.getElementById('username').value.trim().toLowerCase();
+    var p = document.getElementById('password').value;
+    var user = USERS[u];
+    if (user && user.pass === p) {
+      errorBox.style.display = 'none';
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      document.getElementById('user-label').textContent = user.name;
+    } else {
+      errorBox.style.display = 'block';
+    }
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', function(){
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+  });
+</script>
+
+</body>
+</html>
